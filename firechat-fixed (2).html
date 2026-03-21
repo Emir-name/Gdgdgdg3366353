@@ -2305,11 +2305,10 @@ function gcAddPeerRef(uid, ref, event){
 function gcRenderParticipant(uid, stream){
   const existing = document.getElementById('gc-part-'+uid);
   if(existing){
-    if(stream){
+    if(stream && stream.getVideoTracks().length > 0){
       const vid = existing.querySelector('video');
       if(vid){ vid.srcObject = stream; }
       else {
-        // Upgrade from avatar to video
         const av = existing.querySelector('.gc-av');
         if(av){
           av.innerHTML = '';
@@ -2327,7 +2326,7 @@ function gcRenderParticipant(uid, stream){
   const dn = u.displayName||u.name||uid;
   const wrap = document.createElement('div'); wrap.className='gc-participant'; wrap.id='gc-part-'+uid;
   const av = document.createElement('div'); av.className='gc-av'; av.id='gc-av-'+uid;
-  if(stream){
+  if(stream && stream.getVideoTracks().length > 0){
     const vid = document.createElement('video');
     vid.srcObject=stream; vid.autoplay=true; vid.playsInline=true;
     if(uid===me.uid) vid.muted=true;
